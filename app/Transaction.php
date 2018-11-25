@@ -8,10 +8,10 @@ class Transaction extends Model
 {
 
     protected $fillable = [
-        'user_id', 'id', 'detail_transaction_id'
+        'user_id', 'id', 'product_id'
     ];
 
-    public function detailTransaction(){
-        return $this->hasMany('App\DetailTransaction');
+    public function detailProduct(){
+        return $this->belongsTo('App\Product');
     }
 }

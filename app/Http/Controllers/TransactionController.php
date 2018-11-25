@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Product;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class TransactionController extends Controller
 {
@@ -16,8 +18,14 @@ class TransactionController extends Controller
 
     public function index(){
         $user = User::find(Auth::id());
-        $userTransactions = $user->allTransaction();
-        return response()->json(['data' => $transactions, 'status' => 1]);
+        // $userTransactions = $user->allTransaction();
+        $userTransactions = DB::table('users')
+            ->join('transactions', 'users.id', '=', 'transactions.user_id')
+            ->join('products', 'transactions.product_id', '=', 'products.id')
+            ->select('products.*')
+            ->get();
+
+        return response()->json(['data' => $userTransactions, 'status' => 1]);
     }
 
     public function store(Request $request){
@@ -34,31 +42,22 @@ class TransactionController extends Controller
         $user = User::find($userId);
 
 
-        // return 'sebelumcek';
         if ($user->point < $product->point){
             return response()->json(['status'=> 0 , "message"=> 'Point Tidak Mencukupi']);
         }
         
-        return 'setelah cek';
+        $user->point -= $product->point;
+        $user->save();
 
         $transaction = new Transaction();        
         $transaction->user_id = Auth::id();
+        $transaction->product_id = $request->product_id;
         $transaction->save();
 
-            $detail_transaction = new DetailTransaction();
-            $detail_transaction->transaction_id = $transaction->id;
-            $detail_transaction->product_id = $product_id;
-            $detail_transaction->save();
-        
-        // foreach ($request->product_id as $product_id){
-        //     $detail_transaction = new DetailTransaction();
-        //     $detail_transaction->transaction_id = $transaction->id;
-        //     $detail_transaction->product_id = $product_id;
-        //     $detail_transaction->save();
-        // }
 
-        // return response()->json(['data'=>$transaction->detailTransaction, 'data3'=>$transaction, 'status'=> 1]);
-        return response()->json(['data3'=>$transaction, 'status'=> 1]);
+        // return $data_transaction;
+
+        return response()->json(['data'=>$transaction, 'status'=> 1]);
 
     }
 }
