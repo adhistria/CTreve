@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::post("/login",'UserController@authenticate');
 Route::get("/user",'UserController@getAuthenticatedUser');
 Route::group(['middleware'=> 'jwt.auth'],function (){
