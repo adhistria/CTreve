@@ -96,5 +96,11 @@ class UserController extends Controller
 
         return response()->json(['data'=> $user, 'status'=>1]);        
     }
+
+    public function getUserPoint(){
+        $user = User::find(Auth::id());
+        return response()->json(['total_point'=>$user->point, 'status'=>1]);
+    }
+
     
 }

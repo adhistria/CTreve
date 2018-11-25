@@ -45,7 +45,7 @@ class TransactionController extends Controller
         if ($user->point < $product->point){
             return response()->json(['status'=> 0 , "message"=> 'Point Tidak Mencukupi']);
         }
-        
+
         $user->point -= $product->point;
         $user->save();
 
@@ -53,9 +53,6 @@ class TransactionController extends Controller
         $transaction->user_id = Auth::id();
         $transaction->product_id = $request->product_id;
         $transaction->save();
-
-
-        // return $data_transaction;
 
         return response()->json(['data'=>$transaction, 'status'=> 1]);
 

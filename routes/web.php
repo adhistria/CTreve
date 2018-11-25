@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::post("/login",'UserController@authenticate');
 Route::get("/user",'UserController@getAuthenticatedUser');
 Route::group(['middleware'=> 'jwt.auth'],function (){
@@ -21,4 +21,6 @@ Route::group(['middleware'=> 'jwt.auth'],function (){
     Route::post("/user/point",'UserController@addUserPoint');
     Route::post("/transaction",'TransactionController@store');
     Route::get("/transaction",'TransactionController@index');
+    Route::get("/user/point",'UserController@getUserPoint');
+    
 });
