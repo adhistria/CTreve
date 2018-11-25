@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('google_id')->unique();
+            $table->integer('point')->default(0);
             $table->unsignedInteger('role_id')->default('1');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->timestamps();

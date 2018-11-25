@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','point'
     ];
 
     /**
@@ -27,4 +27,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function allTransaction(){
+        // return $this->hasManyThrough('App\Transaction', 'App\DetailTransaction');
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function point(){
+        return $this->has('App\Point');
+    }
 }

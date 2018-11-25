@@ -18,5 +18,7 @@ Route::post("/login",'UserController@authenticate');
 Route::get("/user",'UserController@getAuthenticatedUser');
 Route::group(['middleware'=> 'jwt.auth'],function (){
     Route::put("/user",'UserController@update');
-    Route::post("/point",'PointController@store');
+    Route::post("/user/point",'UserController@addUserPoint');
+    Route::post("/transaction",'TransactionController@store');
+    Route::get("/transaction",'TransactionController@index');
 });

@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
-// use Tymon\JWTAuth\PayloadFactory\JWTFactory;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use Crypt;
@@ -81,4 +80,21 @@ class UserController extends Controller
 
         return response()->json(['status'=>1, 'data'=> $user]);
     }
+
+    public function addUserPoint(Request $request){
+        $validator = Validator::make($request->all(), [
+            'point' => 'required|integer',
+            'user_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors'=> $validator->errors(), 'status' => 0]);
+        }
+        $user = User::find($request->user_id);
+        $user->point += $request->point;
+        $user->save();
+
+        return response()->json(['data'=> $user, 'status'=>1]);        
+    }
+    
 }
