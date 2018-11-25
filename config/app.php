@@ -122,6 +122,7 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+    'log' => 'errorlog',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,6 +134,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
+    
 
     'providers' => [
 
